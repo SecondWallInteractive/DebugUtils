@@ -122,7 +122,7 @@ struct FSwiCommonDebugParams
  * @TODO: implement Draw* methods
  */
 USTRUCT()
-struct FSwiDebugOutput
+struct DEBUGUTILS_API FSwiDebugOutput
 {
 	GENERATED_BODY()
 
