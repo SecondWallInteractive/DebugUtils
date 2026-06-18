@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0.0",
+	"FriendlyName": "Swi Debug Output",
+	"Description": "Unified debug output helper: UE_LOG + Visual Logger + DrawDebug, gated by log tags / console variables.",
+	"Category": "Debug",
+	"CreatedBy": "Second Wall Interactive",
+	"CreatedByURL": "https://github.com/SecondWallInteractive",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "SwiDebugOutput",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
