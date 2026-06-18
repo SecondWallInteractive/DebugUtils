@@ -2,7 +2,7 @@
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0.0",
-	"FriendlyName": "Swi Debug Output",
+	"FriendlyName": "Debug Utils",
 	"Description": "Unified debug output helper: UE_LOG + Visual Logger + DrawDebug, gated by log tags / console variables.",
 	"Category": "Debug",
 	"CreatedBy": "Second Wall Interactive",
@@ -16,7 +16,7 @@
 	"Installed": false,
 	"Modules": [
 		{
-			"Name": "SwiDebugOutput",
+			"Name": "DebugUtils",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}

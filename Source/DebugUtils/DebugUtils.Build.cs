@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class SwiDebugOutput : ModuleRules
+public class DebugUtils : ModuleRules
 {
-	public SwiDebugOutput(ReadOnlyTargetRules Target) : base(Target)
+	public DebugUtils(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 

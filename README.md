@@ -1,4 +1,4 @@
-# SwiDebugOutput
+# DebugUtils
 
 Unreal Engine runtime plugin: a unified debug-output helper that fans a single
 call out to `UE_LOG`, the Visual Logger, and `DrawDebug*` shapes, gated per
@@ -9,11 +9,11 @@ log-tag via console variables (`Swi.LogTags.*`).
 Vendor (copy) the plugin into a host project's `Plugins/` folder:
 
 ```
-<Project>/Plugins/SwiDebugOutput/
+<Project>/Plugins/DebugUtils/
 ```
 
 Then regenerate project files and rebuild. The module is `Runtime`, loaded at
-`Default` phase. Add `"SwiDebugOutput"` to your module's `*.Build.cs`
+`Default` phase. Add `"DebugUtils"` to your module's `*.Build.cs`
 `PublicDependencyModuleNames` / `PrivateDependencyModuleNames` to use it.
 
 ## Usage
