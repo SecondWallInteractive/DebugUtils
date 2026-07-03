@@ -182,6 +182,14 @@ public:
 		float Thickness,
 		FSwiCommonDebugParams Params = {});
 
+	/** Draws Params.LogStr as floating world text at Location (rendering needs a local player HUD). */
+	template <auto& LogCategory>
+	void DrawString (const FVector& Location, FSwiCommonDebugParams Params = {});
+
+	/** Visual Logger counterpart of DrawString: a small labeled sphere marker at Location. */
+	template <auto& LogCategory>
+	void VDrawString (const FVector& Location, FSwiCommonDebugParams Params = {});
+
 
 	template <auto& LogCategory>
 	void DrawPrimitiveComponent (
@@ -352,6 +360,56 @@ void FSwiDebugOutput::VDrawArrow (
 	{
 		DrawArrow<LogCategory>(
 			Start, End, ArrowSize, Thickness, Params);
+	}
+}
+
+template <auto& LogCategory>
+void FSwiDebugOutput::DrawString (const FVector& Location, FSwiCommonDebugParams Params)
+{
+	SWI_ENSURE_VALID();
+	SWI_CHECK_LOG_TAG_WITH_RETURN(Params.LogTag);
+	SWI_LOGTAG_APPEND_LOGSTR(Params.LogTag, Params.LogStr);
+
+	const bool bDoubleLog = Params.bAlsoLogOrVLog.Get(bDoubleLogByDefault);
+	Params.bAlsoLogOrVLog = false;
+
+	// World text keeps the raw string; the tag prefix stays on the console/vlog side.
+	DrawDebugString(
+		World.Get(), Location, Params.LogStr, /*TestBaseActor*/ nullptr,
+		Params.Color.Get(ColorDefault), Params.Duration.Get(DefaultDuration), /*bDrawShadow*/ true);
+
+	Log<LogCategory>(Params);
+
+	if (bDoubleLog)
+	{
+		VDrawString<LogCategory>(Location, Params);
+	}
+}
+
+template <auto& LogCategory>
+void FSwiDebugOutput::VDrawString (const FVector& Location, FSwiCommonDebugParams Params)
+{
+	SWI_ENSURE_VALID();
+	SWI_CHECK_LOG_TAG_WITH_RETURN(Params.LogTag);
+	SWI_LOGTAG_APPEND_LOGSTR(Params.LogTag, Params.LogStr);
+
+	const bool bDoubleLog = Params.bAlsoLogOrVLog.Get(bDoubleLogByDefault);
+	Params.bAlsoLogOrVLog = false;
+
+	if (FVisualLogger::IsRecording())
+	{
+		FVisualLogger::SphereLogf(
+			Owner.Get(), LogCategory, Params.Verbosity,
+			Location, /*Radius*/ 8.f,
+			Params.Color.Get(ColorDefault), /*bWireframe*/ false,
+			TEXT("%s"), *LogStrWithTag);
+	}
+
+	VLog<LogCategory>(Params);
+
+	if (bDoubleLog)
+	{
+		DrawString<LogCategory>(Location, Params);
 	}
 }
 
@@ -542,6 +600,8 @@ void FSwiDebugOutput::VDrawCollisionShape (
 #define Log(...) Dummy();
 #define VLog(...) Dummy();
 #define DrawLine(...) Dummy();
+#define DrawString(...) Dummy();
+#define VDrawString(...) Dummy();
 #define DrawSphere(...) Dummy();
 #define DrawCapsule(...) Dummy();
 #define DrawSolidBox(...) Dummy();
