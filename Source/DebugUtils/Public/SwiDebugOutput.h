@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "DrawDebugHelpers.h"
-#include "VisualLogger/VisualLogger.h"
 #include "Algo/Find.h"
+#include "VisualLogger/VisualLogger.h"
 
 #include "SwiDebugOutput.generated.h"
 
@@ -19,7 +19,11 @@
 #define TEXT_EMPTY TEXT("")
 #endif
 
+#ifdef SWI_ENABLE_DEBUG_OUTPUT_OVERRIDE
+#define SWI_ENABLE_DEBUG_OUTPUT SWI_ENABLE_DEBUG_OUTPUT_OVERRIDE
+#else
 #define SWI_ENABLE_DEBUG_OUTPUT UE_ENABLE_DEBUG_DRAWING && ENABLE_VISUAL_LOG
+#endif
 
 
 namespace Swi::LogTags
@@ -222,7 +226,43 @@ public:
 	void DrawTraceLine () const {};
 	void DrawTraceSweep () const {};
 #else
-	void Dummy () const {}
+	template <auto& LogCategory>
+	void Log (FSwiCommonDebugParams = {}) const {}
+
+	template <auto& LogCategory>
+	void VLog (FSwiCommonDebugParams = {}) const {}
+
+	void DrawLine (const FVector&, const FVector&, const FString* = nullptr) const {}
+	void DrawSphere () const {}
+	void DrawCapsule () const {}
+	void DrawSolidBox () const {}
+
+	template <auto& LogCategory>
+	void DrawArrow (const FVector&, const FVector&, float, float, FSwiCommonDebugParams = {}) {}
+
+	template <auto& LogCategory>
+	void VDrawArrow (const FVector&, const FVector&, float, float, FSwiCommonDebugParams = {}) {}
+
+	template <auto& LogCategory>
+	void DrawString (const FVector&, FSwiCommonDebugParams = {}) {}
+
+	template <auto& LogCategory>
+	void VDrawString (const FVector&, FSwiCommonDebugParams = {}) {}
+
+	template <auto& LogCategory>
+	void DrawPrimitiveComponent (UPrimitiveComponent*, bool, FSwiCommonDebugParams = {}) {}
+
+	template <auto& LogCategory>
+	void DrawCollisionShape (const FTransform&, const FCollisionShape&, bool, FSwiCommonDebugParams = {}) {}
+
+	template <auto& LogCategory>
+	void VDrawPrimitiveComponent (UPrimitiveComponent*, bool, FSwiCommonDebugParams = {}) {}
+
+	template <auto& LogCategory>
+	void VDrawCollisionShape (const FTransform&, const FCollisionShape&, bool, FSwiCommonDebugParams = {}) {}
+
+	void DrawTraceLine () const {}
+	void DrawTraceSweep () const {}
 #endif
 
 private:
@@ -596,19 +636,6 @@ void FSwiDebugOutput::VDrawCollisionShape (
 	}
 }
 
-#else // @TODO: properly implement dummy methods
-#define Log(...) Dummy();
-#define VLog(...) Dummy();
-#define DrawLine(...) Dummy();
-#define DrawString(...) Dummy();
-#define VDrawString(...) Dummy();
-#define DrawSphere(...) Dummy();
-#define DrawCapsule(...) Dummy();
-#define DrawSolidBox(...) Dummy();
-#define DrawCollisionShape(...) Dummy();
-#define DrawPrimitiveComponent(...) Dummy();
-#define DrawTraceLine(...) Dummy();
-#define DrawTraceSweep(...) Dummy();
 #endif
 
 

@@ -41,6 +41,7 @@ bool FSwiDebugOutput::IsLogTagEnabled (const FString& LogTagName) const
 		});
 }
 
+#if SWI_ENABLE_DEBUG_OUTPUT
 void FSwiDebugOutput::DrawLine (const FVector& Start, const FVector& End, const FString* LogTag) const
 {
 	SWI_ENSURE_VALID();
@@ -49,5 +50,6 @@ void FSwiDebugOutput::DrawLine (const FVector& Start, const FVector& End, const 
 
 	DrawDebugLine(World.Get(), Start, End, ColorDefault, false, DefaultDuration);
 }
+#endif // SWI_ENABLE_DEBUG_OUTPUT
 
 #undef SWI_ENSURE_VALID
